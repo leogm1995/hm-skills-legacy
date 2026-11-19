@@ -84,8 +84,11 @@ Opções:
 ./install.sh --dry-run            # mostra o plano, não escreve
 ./install.sh --runtime claude     # só Claude Code
 ./install.sh --runtime codex      # só Codex
-./install.sh --uninstall          # remove as treze
+./install.sh --uninstall          # remove as treze, movendo para backup
+./install.sh --adopt              # assume skills ja existentes sem marcador
 ```
+
+O script nunca sobrescreve skill que ele nao instalou. Se você já tem as treze em `~/.claude/skills` de uma instalação manual anterior, sem marcador, o plano marca todas como CONFLITO e não toca. `--adopt` resolve: ele guarda backup da pasta atual, instala a versão do repositório e passa a gerenciar a skill a partir dali.
 
 ### Manual
 

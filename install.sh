@@ -16,6 +16,7 @@ STAMP="$(date +%Y%m%d-%H%M%S)"
 runtime=both
 dry=0
 uninstall=0
+adopt=0
 
 usage() {
   sed -n '2,3p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'
@@ -27,6 +28,7 @@ Uso:
   ./install.sh --runtime codex    so Codex
   ./install.sh --dry-run          mostra o plano, nao escreve
   ./install.sh --uninstall        remove as 13 (move para backup, reversivel)
+  ./install.sh --adopt            assume skills existentes sem marcador (backup antes)
 
 Opcoes:
   --claude-home DIR   padrao ~/.claude
@@ -44,6 +46,7 @@ while [ $# -gt 0 ]; do
     --codex-home) codex_home="${2:?}"; shift 2 ;;
     --dry-run) dry=1; shift ;;
     --uninstall) uninstall=1; shift ;;
+    --adopt) adopt=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) printf 'argumento desconhecido: %s\n' "$1" >&2; usage; exit 2 ;;
   esac
@@ -83,6 +86,8 @@ for home in "${homes[@]}"; do
       plan_lines+=("  instalar: $skill")
     elif [ -f "$target/$MARKER" ] && grep -q "\"$SUITE\"" "$target/$MARKER"; then
       plan_lines+=("  substituir: $skill")
+    elif [ "$adopt" = 1 ]; then
+      plan_lines+=("  adotar (backup antes): $skill")
     else
       plan_lines+=("  CONFLITO (skill de outra origem, intocado): $skill")
     fi
@@ -121,7 +126,7 @@ for home in "${homes[@]}"; do
   mkdir -p "$skills_dir"
   for skill in "${SKILLS[@]}"; do
     target="$skills_dir/$skill"
-    if [ -e "$target" ] && { [ ! -f "$target/$MARKER" ] || ! grep -q "\"$SUITE\"" "$target/$MARKER"; }; then
+    if [ -e "$target" ] && [ "$adopt" = 0 ] && { [ ! -f "$target/$MARKER" ] || ! grep -q "\"$SUITE\"" "$target/$MARKER"; }; then
       continue
     fi
     if [ -e "$target" ]; then
