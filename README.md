@@ -1,14 +1,16 @@
-# HM Skills Legacy (v1)
+# HM Skills Legacy
 
 Treze skills de validação pré-ship no padrão Higher Mind, escritas para Claude Code e Codex. Cada uma cobre um domínio de engenharia, audita por completo e devolve findings priorizados com fix obrigatório.
 
-Esta é a **geração v1**. Foi substituída pelo [HM Orbit 4.0.0](https://github.com/rodrigohighermind/highermind-skills), que reorganiza o mesmo acervo em quatro skills com ciclo, playbooks e contrato de fechamento. O conteúdo por domínio continua válido, então fica publicado como referência e como fallback para quem quer um validador por domínio em vez de um ciclo contínuo.
+Esta é a geração **anterior ao Orbit**, congelada como estava. Foi substituída pelo [HM Orbit 4.0.0](https://github.com/rodrigohighermind/highermind-skills), que reorganiza o mesmo acervo em quatro skills com ciclo, playbooks e contrato de fechamento. O conteúdo por domínio continua válido, então fica publicado como referência e como fallback para quem quer um validador por domínio em vez de um ciclo contínuo.
+
+As skills evoluíram no próprio ritmo antes do congelamento: a suíte é "anterior ao Orbit", mas skill individual chega a v4. A tabela de versões por skill está adiante.
 
 ## Estado
 
 | | |
 |---|---|
-| Geração | v1 (legacy) |
+| Geração | pré-Orbit (legacy) |
 | Substituído por | `hm-skills-orbit` 4.0.0 |
 | Runtimes | Claude Code, Codex |
 | Idioma | pt-BR |
@@ -16,9 +18,9 @@ Esta é a **geração v1**. Foi substituída pelo [HM Orbit 4.0.0](https://githu
 | Skills | 13 |
 | Linhas | 3.686 |
 
-## O que a v1 resolve
+## O que a suíte resolve
 
-Um agente genérico aprova código por impressão. A v1 troca impressão por auditoria de domínio: oito camadas de engenharia e cinco de validação, cada uma com critério explícito, alvo numérico e severidade calibrada.
+Um agente genérico aprova código por impressão. A suíte troca impressão por auditoria de domínio: oito camadas de engenharia e cinco de validação, cada uma com critério explícito, alvo numérico e severidade calibrada.
 
 O modelo mental é **validador, não gerador**. A skill não constrói a interface nem escolhe a stack. Ela olha o que existe e responde uma pergunta: isso passa ou não passa, e se não passa, o que exatamente muda.
 
@@ -154,11 +156,11 @@ Um arquivo por skill, sem dependência externa, sem script auxiliar. O que está
 
 ## O que mudou no Orbit
 
-A v1 é grande: `hm-security` sozinha tem 758 linhas e cobre 14 domínios. O Orbit corta isso em quatro skills com orçamento de 150 linhas e joga o detalhe em playbooks carregados sob demanda. Ganha em contexto e em ciclo; perde em granularidade de invocação, porque não existe mais um `/hm-security` isolado.
+A suíte é grande: `hm-security` sozinha tem 758 linhas e cobre 14 domínios. O Orbit corta isso em quatro skills com orçamento de 150 linhas e joga o detalhe em playbooks carregados sob demanda. Ganha em contexto e em ciclo; perde em granularidade de invocação, porque não existe mais um `/hm-security` isolado.
 
 Resumo do mapeamento:
 
-| v1 | Orbit 4.0.0 |
+| Pré-Orbit | Orbit 4.0.0 |
 |---|---|
 | `hm-init`, `hm-engineer`, `hm-performance`, `hm-llm-guardrails`, `hm-security`, `hm-data-integrity`, `hm-deploy`, `hm-docker-clean`, `hm-cli` | `hm-engineering` (playbooks `init`, `review`, `performance`, `llm`, `security`, `data-integrity`, `ship`, `operate`, `cli`) |
 | `hm-designer`, `hm-ux-flow` | `hm-design` (playbooks `direction`, `flow`, `review`) |
@@ -178,15 +180,21 @@ O que toda skill da suíte tem:
 5. **Formato de output fixo.** Sempre o mesmo bloco, para o consolidado ser mecânico.
 6. **`Regras` no fim, em imperativo.** São os freios: o que reprova na hora e o que nunca é rebaixado de severidade.
 
-## Histórico
+## Versões por skill
 
-| Versão | O que mudou |
+Cada skill evoluiu no próprio ritmo, e o número está declarado no título do `SKILL.md`.
+
+| Skill | Versão |
 |---|---|
-| v4 | `hm-qa` ganha os 5 checks de baseline-ready e a separação explícita com `product-ready` |
-| v3 | `hm-deploy` vira validação por modelo de distribuição; `hm-engineer` e `hm-init` endurecem o baseline |
-| v2.3 | `hm-security` chega a 14 domínios com ASVS, supply chain e LLM |
-| v2 | `hm-data-integrity` e `hm-llm-guardrails` entram na suíte |
-| v1 | `hm-designer`, `hm-ux-flow`, `hm-performance`, `hm-qa`, `hm-security`, `hm-engineer`, `hm-init`, `hm-cli`, `hm-deploy`, `hm-docker-clean`, `hm-validate-all` |
+| `hm-qa` | v4 |
+| `hm-deploy`, `hm-engineer`, `hm-init` | v3 |
+| `hm-security` | v2.3 |
+| `hm-data-integrity`, `hm-llm-guardrails` | v2 |
+| `hm-validate-all` | v1.1 |
+| `hm-designer`, `hm-ux-flow`, `hm-performance` | v1 |
+| `hm-cli`, `hm-docker-clean` | sem versão declarada |
+
+O acervo foi congelado como publicado aqui. Correções de conteúdo passam a acontecer no Orbit.
 
 ## Licença
 

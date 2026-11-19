@@ -1,5 +1,7 @@
 # Migração para o HM Orbit 4.0.0
 
+Neste documento, **v1** significa a geração pré-Orbit publicada neste repositório, não a versão de uma skill específica (que chega a v4 em `hm-qa`).
+
 A v1 era um validador por domínio. O Orbit é um ciclo com playbooks. Este documento mapeia onde cada coisa da v1 foi parar, o que melhorou e o que se perdeu, para você decidir quando usar qual.
 
 ## A mudança estrutural
